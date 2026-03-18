@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Arcosull Consórcio — Realize Seus Sonhos</title>
+  <meta name="description"
+    content="Arcosull Consórcio: simule seu consórcio de veículos, imóveis e pesados sem juros. Parcelas acessíveis, contemplação rápida e segurança total.">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+  <!-- ══════════════════════════════════ NAV ══════════════════════════════════ -->
+  <nav id="navbar">
+    <div class="nav-logo">
+      <img src="Logo-arcosul-completa.png" alt="Arcosull" class="nav-logo-img">
+    </div>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#simulador">Consórcio</a></li>
+      <li><a href="#planos">Planos</a></li>
+      <li><a href="#por-que">Quem Somos</a></li>
+      <li><a href="#faq">FAQ</a></li>
+      <li><a href="#simulador" class="nav-cta">Fazer Simulação</a></li>
+    </ul>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- ══════════════════════════════════ HERO + SIMULADOR ══════════════════════════════════ -->
+  <section class="hero-cta" id="simulador">
+    <div class="hero-cta-bg"></div>
+    <div class="hero-cta-inner">
+
+      <!-- Título + descrição centralizados -->
+      <div class="hero-title-row">
+        <span class="hero-badge"><span class="badge-dot"></span> Líder em consórcios desde 1995</span>
+        <h1>Comece a <span class="text-red">conquistar</span> seu futuro hoje</h1>
+        <p class="hero-subtitle">A Arcosull Consórcio atua há mais de 26 anos ajudando milhares de famílias a realizarem
+          o sonho da casa própria, do carro novo ou do caminhão para expandir os negócios — sem juros, sem IOF,
+          sem complicação.</p>
+      </div>
+
+      <!-- Simulador centralizado -->
+      <div class="hero-two-cols">
+        <div class="hero-sim-right">
+        <div class="sim-container">
+          <div class="sim-panel">
+            <div class="sim-section">
+              <label class="sim-section-label">Tipo de consórcio</label>
+              <div class="select-categoria">
+                <button class="cat-btn active" onclick="setCat(this)">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="1" y="3" width="15" height="13" />
+                    <polygon points="16 8 20 8 23 11 23 16 16 16 16 8" />
+                    <circle cx="5.5" cy="18.5" r="2.5" />
+                    <circle cx="18.5" cy="18.5" r="2.5" />
+                  </svg>
+                  Veículos
+                </button>
+                <button class="cat-btn" onclick="setCat(this)">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+                    <polyline points="9 22 9 12 15 12 15 22" />
+                  </svg>
+                  Imóveis
+                </button>
+                <button class="cat-btn" onclick="setCat(this)">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="1" y="3" width="15" height="13" />
+                    <polygon points="16 8 20 8 23 11 23 16 16 16 16 8" />
+                    <circle cx="5.5" cy="18.5" r="2.5" />
+                    <circle cx="18.5" cy="18.5" r="2.5" />
+                  </svg>
+                  Pesados
+                </button>
+              </div>
+            </div>
+            <div class="sim-section">
+              <label class="sim-section-label">Modo de simulação</label>
+              <div class="tab-group">
+                <button class="tab-btn" onclick="setTab(this, 'parcela')">Por Parcela</button>
+                <button class="tab-btn active" onclick="setTab(this, 'credito')">Por Crédito</button>
+              </div>
+            </div>
+            <div class="sim-section">
+              <label class="sim-section-label" id="sim-label-text">Escolha o valor do crédito:</label>
+              <div class="sim-valor-display">
+                <span class="currency">R$</span>
+                <span class="valor-num" id="sim-num">40.000</span>
+                <span class="cents">,00</span>
+              </div>
+              <div class="sim-range-wrap">
+                <input type="range" id="sim-range" min="10000" max="500000" step="1000" value="40000"
+                  oninput="updateSim(this.value)">
+              </div>
+              <div class="sim-range-labels"><span>R$ 10 mil</span><span>R$ 500 mil</span></div>
+            </div>
+            <button class="btn-simular" onclick="simularAgora()">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8" /><path d="M21 21l-4.35-4.35" />
+              </svg>
+              Simular Agora
+            </button>
+          </div>
+          <div class="sim-chart-area">
+            <div class="chart-header">
+              <h4>Evolução do Patrimônio</h4>
+              <div class="chart-legend">
+                <span class="legend-item"><span class="legend-dot dot-blue"></span> Crédito acumulado</span>
+                <span class="legend-item"><span class="legend-dot dot-green"></span> Parcelas pagas</span>
+                <span class="legend-item"><span class="legend-dot dot-purple"></span> Valorização</span>
+              </div>
+            </div>
+            <div class="chart-container"><canvas id="simChart"></canvas></div>
+            <div class="chart-stats">
+              <div class="chart-stat"><span class="stat-label">Parcela estimada</span><span class="stat-value"
+                  id="stat-parcela">R$ 555,00</span></div>
+              <div class="chart-stat"><span class="stat-label">Prazo</span><span class="stat-value"
+                  id="stat-prazo">72 meses</span></div>
+              <div class="chart-stat"><span class="stat-label">Taxa admin.</span><span class="stat-value"
+                  id="stat-taxa">15% total</span></div>
+            </div>
+          </div>
+        </div>
+        </div>
+
+      </div><!-- /.hero-two-cols -->
+
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════ STATS + COMO FUNCIONA ══════════════════════════════════ -->
+  <section class="stats-como-funciona" id="como-funciona">
+
+    <!-- Faixa de números — fundo navy -->
+    <div class="stats-banner">
+      <div class="stats-banner-inner">
+        <div class="stat-item">
+          <strong>+26</strong>
+          <span>Anos de experiência</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <strong>+5<small>mil</small></strong>
+          <span>Clientes ativos</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item accent">
+          <strong>0%</strong>
+          <span>IOF e juros bancários</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <strong>SELO</strong>
+          <span>GC do Brasil</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Como funciona — fundo claro -->
+    <div class="como-funciona-content">
+      <div class="section-header dark">
+        <span class="eyebrow">Simples e Transparente</span>
+        <h2>Como funciona o consórcio</h2>
+        <p>Sem juros, sem burocracia. Veja como é fácil conquistar seu bem com a Arcosull.</p>
+      </div>
+      <div class="steps-grid">
+        <div class="step-item">
+          <div class="step-num">01</div>
+          <div class="step-text">
+            <h4>Você entra no grupo</h4>
+            <p>Escolha seu plano e passe a fazer parte de um grupo de pessoas com o mesmo objetivo.</p>
+          </div>
+        </div>
+        <div class="step-item red-num">
+          <div class="step-num">03</div>
+          <div class="step-text">
+            <h4>Pode ser contemplado</h4>
+            <p>Por sorteio mensal ou lance, você pode ser contemplado a qualquer momento do plano.</p>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">02</div>
+          <div class="step-text">
+            <h4>Paga parcelas mensais</h4>
+            <p>Contribuições mensais sem juros e sem IOF. Só a taxa de administração, totalmente transparente.</p>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">04</div>
+          <div class="step-text">
+            <h4>Recebe a carta de crédito</h4>
+            <p>Use o crédito para comprar à vista, com todo o poder de negociação nas suas mãos.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ══════════════════════════════════ CARROSSEL 3-SLIDES ══════════════════════════════════ -->
+  <section class="carousel-section" id="galeria">
+    <div class="carousel-3">
+      <button class="carousel-arrow carousel-prev" id="carouselPrev" aria-label="Anterior">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M15 18l-6-6 6-6" />
+        </svg>
+      </button>
+      <div class="carousel-viewport">
+        <div class="carousel-track" id="carouselTrack">
+          <div class="carousel-slide" data-index="0">
+            <img src="Estrategia (2).png" alt="Estratégia Arcosull" class="carousel-img">
+          </div>
+          <div class="carousel-slide" data-index="1">
+            <img src="azul.png" alt="Arcosull" class="carousel-img">
+          </div>
+          <div class="carousel-slide" data-index="2">
+            <img src="Vermelho.png" alt="Arcosull" class="carousel-img">
+          </div>
+          <div class="carousel-slide" data-index="3">
+            <img src="planejamento.png" alt="Planejamento Arcosull" class="carousel-img">
+          </div>
+          <div class="carousel-slide" data-index="4">
+            <img src="Estrategia.png" alt="Estratégia Arcosull" class="carousel-img">
+          </div>
+        </div>
+      </div>
+      <button class="carousel-arrow carousel-next" id="carouselNext" aria-label="Próximo">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M9 18l6-6-6-6" />
+        </svg>
+      </button>
+    </div>
+    <div class="carousel-dots" id="carouselDots">
+      <button class="carousel-dot active" data-index="0"></button>
+      <button class="carousel-dot" data-index="1"></button>
+      <button class="carousel-dot" data-index="2"></button>
+      <button class="carousel-dot" data-index="3"></button>
+      <button class="carousel-dot" data-index="4"></button>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════ PLANOS ══════════════════════════════════ -->
+  <section class="planos" id="planos">
+    <div class="section-header wide">
+      <span class="eyebrow">Planos & Parcelas</span>
+      <h2>Escolha o plano ideal para você</h2>
+      <p>Oferecemos planos flexíveis com parcelas que cabem no seu bolso. Contribuição de fundo comum reduzida até a
+        contemplação, sem juros e sem IOF. Compare e escolha o que mais combina com seus objetivos.</p>
+    </div>
+    <div class="cards-row">
+      <div class="plan-card">
+        <div class="plan-card-inner">
+          <div class="card-shine"></div>
+          <div class="card-thumb">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="1.5">
+              <rect x="1" y="3" width="15" height="13" />
+              <polygon points="16 8 20 8 23 11 23 16 16 16 16 8" />
+              <circle cx="5.5" cy="18.5" r="2.5" />
+              <circle cx="18.5" cy="18.5" r="2.5" />
+            </svg>
+          </div>
+          <p class="card-label">Crédito de</p>
+          <div class="card-credito"><small>R$</small> 44 mil</div>
+          <p class="card-parcela-label">Parcelas a partir de</p>
+          <p class="card-parcela"><sup>R$</sup> 306,24<sup>*</sup></p>
+          <div class="card-divider"></div>
+          <ul class="card-features">
+            <li>Sem juros, sem IOF</li>
+            <li>Lance opcional</li>
+            <li>Grupo garantido</li>
+          </ul>
+          <button onclick="openSimModal('Veículos', 'R$ 44.000', 'R$ 306,24')" class="btn-simule">Simular Agora</button>
+        </div>
+      </div>
+      <div class="plan-card destaque">
+        <div class="plan-card-inner">
+          <div class="card-shine"></div>
+          <div class="destaque-badge">⭐ Mais Vendido</div>
+          <div class="card-thumb">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#E63946" stroke-width="1.5">
+              <rect x="1" y="3" width="15" height="13" />
+              <polygon points="16 8 20 8 23 11 23 16 16 16 16 8" />
+              <circle cx="5.5" cy="18.5" r="2.5" />
+              <circle cx="18.5" cy="18.5" r="2.5" />
+            </svg>
+          </div>
+          <p class="card-label">Crédito de</p>
+          <div class="card-credito"><small>R$</small> 56 mil</div>
+          <p class="card-parcela-label">Parcelas a partir de</p>
+          <p class="card-parcela"><sup>R$</sup> 389,76<sup>*</sup></p>
+          <div class="card-divider"></div>
+          <ul class="card-features">
+            <li>Sem juros, sem IOF</li>
+            <li>Lance opcional</li>
+            <li>Grupo garantido</li>
+            <li>Assessoria gratuita</li>
+          </ul>
+          <button onclick="openSimModal('Veículos — Mais Vendido', 'R$ 56.000', 'R$ 389,76')" class="btn-simule btn-simule-red">Simular Agora</button>
+        </div>
+      </div>
+      <div class="plan-card">
+        <div class="plan-card-inner">
+          <div class="card-shine"></div>
+          <div class="card-thumb">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="1.5">
+              <rect x="1" y="3" width="15" height="13" />
+              <polygon points="16 8 20 8 23 11 23 16 16 16 16 8" />
+              <circle cx="5.5" cy="18.5" r="2.5" />
+              <circle cx="18.5" cy="18.5" r="2.5" />
+            </svg>
+          </div>
+          <p class="card-label">Crédito de</p>
+          <div class="card-credito"><small>R$</small> 64 mil</div>
+          <p class="card-parcela-label">Parcelas a partir de</p>
+          <p class="card-parcela"><sup>R$</sup> 445,44<sup>*</sup></p>
+          <div class="card-divider"></div>
+          <ul class="card-features">
+            <li>Sem juros, sem IOF</li>
+            <li>Lance opcional</li>
+            <li>Grupo garantido</li>
+          </ul>
+          <button onclick="openSimModal('Veículos', 'R$ 64.000', 'R$ 445,44')" class="btn-simule">Simular Agora</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════ POR QUE ARCOSULL ══════════════════════════════════ -->
+  <section class="por-que" id="por-que">
+    <div class="section-header dark wide">
+      <span class="eyebrow">Por que a <span class="text-red">Arcosull</span>?</span>
+      <h2>Vantagens de escolher nosso consórcio</h2>
+      <p>A Arcosull oferece a melhor experiência em consórcio do mercado. Com tecnologia de ponta, regulamentação do
+        Banco Central e atendimento humanizado, garantimos que cada etapa da sua conquista será segura e transparente.
+      </p>
+    </div>
+    <div class="bene-grid">
+      <div class="bene-card">
+        <div class="bene-icon-wrap">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#E63946" stroke-width="2">
+            <line x1="12" y1="1" x2="12" y2="23" />
+            <path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6" />
+          </svg>
+        </div>
+        <h4>Sem juros, sem surpresas</h4>
+        <p>Diferente do financiamento, no consórcio você paga apenas a taxa de administração. Sem IOF, sem encargos
+          ocultos. Economia real de até <strong>40%</strong>.</p>
+      </div>
+      <div class="bene-card">
+        <div class="bene-icon-wrap red">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#E63946" stroke-width="2">
+            <rect x="3" y="11" width="18" height="11" rx="2" />
+            <path d="M7 11V7a5 5 0 0110 0v4" />
+          </svg>
+        </div>
+        <h4>100% seguro e regulamentado</h4>
+        <p>Regulamentado pelo Banco Central do Brasil. Seus recursos são auditados mensalmente com total transparência.
+        </p>
+      </div>
+      <div class="bene-card">
+        <div class="bene-icon-wrap">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#E63946" stroke-width="2">
+            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+          </svg>
+        </div>
+        <h4>Contemplação rápida</h4>
+        <p>Sorteios mensais em assembleia e lance com recursos próprios ou embutido. Muitos são contemplados nos
+          primeiros meses.</p>
+      </div>
+      <div class="bene-card">
+        <div class="bene-icon-wrap red">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#E63946" stroke-width="2">
+            <rect x="5" y="2" width="14" height="20" rx="2" />
+            <line x1="12" y1="18" x2="12.01" y2="18" />
+          </svg>
+        </div>
+        <h4>Gestão 100% digital</h4>
+        <p>Acompanhe tudo pelo aplicativo ou site: extratos, assembleias ao vivo, oferta de lance e suporte dedicado.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════ CONTATO ══════════════════════════════════ -->
+  <section class="contato" id="contato">
+    <div class="contato-container">
+      <div class="contato-info">
+        <span class="eyebrow">Fale Conosco</span>
+        <h2>Entre em contato<br>com a <span class="text-red">Arcosull</span></h2>
+        <p>Preencha seus dados abaixo e nossa equipe de especialistas entrará em contato em até 24 horas com as melhores
+          condições de consórcio personalizadas para o seu perfil.</p>
+        <div class="contato-features">
+          <div class="contato-feat">
+            <div class="feat-icon">⚡</div>
+            <div><strong>Resposta em até 24h</strong><span>Nossos consultores retornam rápido</span></div>
+          </div>
+          <div class="contato-feat">
+            <div class="feat-icon red-icon">🎯</div>
+            <div><strong>Proposta 100% personalizada</strong><span>Plano sob medida para seus objetivos</span></div>
+          </div>
+          <div class="contato-feat">
+            <div class="feat-icon">🔒</div>
+            <div><strong>Seus dados estão protegidos</strong><span>Segurança e privacidade garantidas</span></div>
+          </div>
+        </div>
+      </div>
+      <form class="contato-form" id="contactForm" onsubmit="handleFormSubmit(event)">
+        <div class="form-group">
+          <input type="text" id="nome" name="nome" required placeholder=" ">
+          <label for="nome">Nome completo</label>
+          <div class="input-line"></div>
+        </div>
+        <div class="form-group">
+          <input type="email" id="email" name="email" required placeholder=" ">
+          <label for="email">E-mail</label>
+          <div class="input-line"></div>
+        </div>
+        <div class="form-group">
+          <input type="tel" id="telefone" name="telefone" required placeholder=" " oninput="maskPhone(this)">
+          <label for="telefone">Telefone</label>
+          <div class="input-line"></div>
+        </div>
+        <div class="form-group">
+          <input type="text" id="cep" name="cep" required placeholder=" " maxlength="9" oninput="maskCep(this)">
+          <label for="cep">CEP</label>
+          <div class="input-line"></div>
+        </div>
+        <button type="submit" class="btn-enviar">
+          <span class="btn-enviar-text">Enviar Dados</span>
+          <span class="btn-enviar-loading" style="display:none">
+            <svg width="20" height="20" viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="10" stroke="white" stroke-width="3" fill="none" stroke-dasharray="31.4 31.4"
+                stroke-linecap="round">
+                <animateTransform attributeName="transform" type="rotate" dur="1s" from="0 12 12" to="360 12 12"
+                  repeatCount="indefinite" />
+              </circle>
+            </svg>
+          </span>
+        </button>
+      </form>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════ FAQ ══════════════════════════════════ -->
+  <section class="faq" id="faq">
+    <div class="section-header dark wide">
+      <span class="eyebrow">Dúvidas</span>
+      <h2>Perguntas Frequentes</h2>
+      <p>Tire suas principais dúvidas sobre o consórcio Arcosull. Se não encontrar o que procura, entre em contato
+        conosco.</p>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          <span>O que é consórcio e como funciona?</span>
+          <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2.5">
+            <path d="M6 9l6 6 6-6" />
+          </svg>
+        </button>
+        <div class="faq-answer">
+          <p>O consórcio é uma modalidade de compra programada sem juros. Um grupo contribui mensalmente e
+            periodicamente participantes são contemplados por sorteio ou lance, recebendo carta de crédito. Apenas taxa
+            de administração — muito mais econômico que financiamento.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          <span>Quais são as formas de contemplação?</span>
+          <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2.5">
+            <path d="M6 9l6 6 6-6" />
+          </svg>
+        </button>
+        <div class="faq-answer">
+          <p>Sorteio mensal nas assembleias ou lance (recursos próprios ou lance embutido). A Arcosull oferece suporte
+            completo para definir a melhor estratégia.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          <span>É verdade que o consórcio não tem juros?</span>
+          <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2.5">
+            <path d="M6 9l6 6 6-6" />
+          </svg>
+        </button>
+        <div class="faq-answer">
+          <p>Sim! Sem juros e sem IOF. Apenas taxa de administração. Economia de até <strong>40%</strong> comparado ao
+            financiamento bancário.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          <span>Posso usar o FGTS no consórcio?</span>
+          <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2.5">
+            <path d="M6 9l6 6 6-6" />
+          </svg>
+        </button>
+        <div class="faq-answer">
+          <p>Sim, para consórcios de <strong>imóveis</strong>, é possível usar o FGTS para lance, complementar crédito
+            ou amortizar parcelas.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          <span>E se eu desistir do consórcio?</span>
+          <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2.5">
+            <path d="M6 9l6 6 6-6" />
+          </svg>
+        </button>
+        <div class="faq-answer">
+          <p>Restituição ao ser contemplado por sorteio nas assembleias seguintes ou ao final do grupo, com descontos
+            contratuais quando aplicável.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          <span>O consórcio é seguro?</span>
+          <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2.5">
+            <path d="M6 9l6 6 6-6" />
+          </svg>
+        </button>
+        <div class="faq-answer">
+          <p>Totalmente! Regulamentado pelo <strong>Banco Central do Brasil</strong>. Administradoras fiscalizadas com
+            regras rígidas — cada centavo é auditado.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════ CTA FINAL ══════════════════════════════════ -->
+  <section class="cta-final">
+    <div class="cta-bg-lines"></div>
+    <span class="eyebrow">Pronto para começar?</span>
+    <h2>Sua conquista está a<br>um clique de <span class="text-red">distância</span></h2>
+    <p>Entre em contato agora e receba uma proposta personalizada. A Arcosull está pronta para ajudar você a realizar
+      seus sonhos — sem juros, sem burocracia.</p>
+    <div class="cta-btn-group">
+      <a href="#simulador" class="btn-cta-primary">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+        </svg>
+        Fazer Simulação Grátis
+      </a>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════ FOOTER ══════════════════════════════════ -->
+  <footer>
+    <div class="footer-wave">
+      <svg viewBox="0 0 1440 80" preserveAspectRatio="none">
+        <path d="M0,40 C360,80 720,0 1080,40 C1260,60 1360,50 1440,40 L1440,80 L0,80 Z" fill="#0a1628" />
+      </svg>
+    </div>
+    <div class="footer-main">
+      <div class="footer-content">
+        <div class="footer-brand-col">
+          <div class="footer-logo-card">
+            <img src="Logo-arcosul-completa.png" alt="Arcosull" class="footer-logo-img">
+          </div>
+          <p class="footer-brand-text">A Arcosull Consórcio de Seguros atua no mercado segurador desde 1995. Evoluindo
+            ao longo do tempo com uma das maiores empresas do ramo da região, oferecendo o que há de melhor em seguros,
+            com uma equipe de profissionais preparados para buscar soluções específicas às necessidades de cada cliente.
+          </p>
+        </div>
+        <div class="footer-col">
+          <h5>Links</h5>
+          <ul>
+            <li><a href="#simulador">● A Arcosull</a></li>
+            <li><a href="#planos">● Consórcio</a></li>
+            <li><a href="#por-que">● Planos</a></li>
+            <li><a href="#contato">● Contato</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h5>Contatos</h5>
+          <ul>
+            <li class="footer-contact-item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#E63946" stroke-width="2">
+                <path
+                  d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.362 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0122 16.92z" />
+              </svg>
+              Nossos contatos
+            </li>
+            <li><a href="mailto:arcosull@arcosull.com.br">● arcosull@arcosull.com.br</a></li>
+            <li><a href="#">● Rua Minas Gerais, 1908, Centro, Cascavel - Paraná</a></li>
+            <li><a href="tel:+554530355000">● (45) 3035-5000</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h5>Subscribe Newsletter</h5>
+          <p class="footer-newsletter-text">Se interesse e fique por dentro</p>
+          <form class="footer-newsletter" onsubmit="event.preventDefault()">
+            <input type="email" placeholder="Email Address..." class="footer-email-input">
+            <button type="submit" class="footer-email-btn">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                <path d="M5 12h14M12 5l7 7-7 7" />
+              </svg>
+            </button>
+          </form>
+        </div>
+      </div>
+      <div class="footer-phone-bar">
+        <div class="footer-phone">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E63946" stroke-width="2">
+            <path
+              d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.362 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0122 16.92z" />
+          </svg>
+          <div>
+            <small>Entre em contato</small>
+            <strong>45 9.9800-0367</strong>
+          </div>
+        </div>
+        <a href="#contato" class="footer-cta-btn">FALE CORRETOR</a>
+      </div>
+      <div class="footer-bottom">
+        <p>Copyright © 2025. Desenvolvido por Arcosull Consórcio</p>
+        <div class="footer-bottom-links">
+          <a href="#">Terms Of Use</a>
+          <a href="#faq">Help & FAQs</a>
+          <a href="#">Carreiras</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- WHATSAPP -->
+  <a href="https://wa.me/5545998000367?text=Olá!%20Tenho%20interesse%20em%20um%20consórcio%20Arcosull." class="whatsapp-btn" target="_blank" title="Fale no WhatsApp">
+    <svg width="28" height="28" viewBox="0 0 30 30" fill="white">
+      <path
+        d="M15 2.5A12.5 12.5 0 002.5 15c0 2.21.58 4.28 1.59 6.07L2.5 27.5l6.58-1.57A12.5 12.5 0 1015 2.5zm0 22.5a10 10 0 01-5.1-1.39l-.36-.22-3.91.93.99-3.8-.24-.38A10 10 0 1115 25zm5.48-7.5c-.3-.15-1.77-.87-2.04-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.95 1.17-.17.2-.35.22-.65.07a8.14 8.14 0 01-2.39-1.47 8.9 8.9 0 01-1.65-2.06c-.17-.3-.02-.46.13-.6.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51l-.57-.01c-.2 0-.52.07-.79.37-.27.3-1.02 1-1.02 2.43s1.05 2.82 1.19 3.02c.15.2 2.06 3.15 5 4.41.7.3 1.24.48 1.67.62.7.22 1.34.19 1.84.12.56-.08 1.77-.72 2.02-1.42.25-.7.25-1.3.17-1.42-.07-.12-.27-.2-.57-.35z" />
+    </svg>
+  </a>
+
+  <!-- ══════════════════════════════════ MODAL SIMULAÇÃO ══════════════════════════════════ -->
+  <div class="sim-modal-overlay" id="simModalOverlay" onclick="handleOverlayClick(event)">
+    <div class="sim-modal">
+      <button class="sim-modal-close" id="simModalClose" onclick="closeSimModal()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
+        </svg>
+      </button>
+
+      <div class="sim-modal-header">
+        <span class="eyebrow">Simulação</span>
+        <h3>Preencha seus dados</h3>
+        <p>Nossa equipe enviará uma proposta personalizada pelo WhatsApp em minutos.</p>
+      </div>
+
+      <div class="sim-modal-plan-tag" id="simModalPlanTag">
+        <!-- preenchido pelo JS -->
+      </div>
+
+      <form class="sim-modal-form" id="simModalForm" onsubmit="submitSimModal(event)">
+        <div class="form-group">
+          <input type="text" id="modal-nome" name="modal-nome" required placeholder=" ">
+          <label for="modal-nome">Nome completo</label>
+          <div class="input-line"></div>
+        </div>
+        <div class="form-group">
+          <input type="email" id="modal-email" name="modal-email" required placeholder=" ">
+          <label for="modal-email">E-mail</label>
+          <div class="input-line"></div>
+        </div>
+        <div class="form-group">
+          <input type="tel" id="modal-telefone" name="modal-telefone" required placeholder=" " oninput="maskPhone(this)">
+          <label for="modal-telefone">Telefone</label>
+          <div class="input-line"></div>
+        </div>
+        <div class="form-group">
+          <input type="text" id="modal-cep" name="modal-cep" required placeholder=" " maxlength="9" oninput="maskCep(this)">
+          <label for="modal-cep">CEP</label>
+          <div class="input-line"></div>
+        </div>
+        <button type="submit" class="btn-enviar btn-modal-enviar">
+          <span class="btn-enviar-text">
+            <svg width="18" height="18" viewBox="0 0 30 30" fill="currentColor" style="vertical-align:-2px;margin-right:6px">
+              <path d="M15 2.5A12.5 12.5 0 002.5 15c0 2.21.58 4.28 1.59 6.07L2.5 27.5l6.58-1.57A12.5 12.5 0 1015 2.5zm5.48 17.5c-.3-.15-1.77-.87-2.04-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.95 1.17-.17.2-.35.22-.65.07a8.14 8.14 0 01-2.39-1.47 8.9 8.9 0 01-1.65-2.06c-.17-.3-.02-.46.13-.6.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51l-.57-.01c-.2 0-.52.07-.79.37-.27.3-1.02 1-1.02 2.43s1.05 2.82 1.19 3.02c.15.2 2.06 3.15 5 4.41.7.3 1.24.48 1.67.62.7.22 1.34.19 1.84.12.56-.08 1.77-.72 2.02-1.42.25-.7.25-1.3.17-1.42-.07-.12-.27-.2-.57-.35z"/>
+            </svg>
+            Enviar Dados
+          </span>
+          <span class="btn-enviar-loading" style="display:none">
+            <svg width="20" height="20" viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="10" stroke="white" stroke-width="3" fill="none" stroke-dasharray="31.4 31.4" stroke-linecap="round">
+                <animateTransform attributeName="transform" type="rotate" dur="1s" from="0 12 12" to="360 12 12" repeatCount="indefinite"/>
+              </circle>
+            </svg>
+          </span>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script src="main.js"></script>
+</body>
+
+</html>
