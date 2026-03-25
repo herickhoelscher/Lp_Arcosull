@@ -98,13 +98,13 @@ nav.scrolled {
 }
 
 .nav-logo-img {
-  height: 38px;
+  height: 80px;
   width: auto;
   object-fit: contain;
 }
 
 nav.scrolled .nav-logo-img {
-  height: 32px;
+  height: 64px;
 }
 
 .nav-links {
@@ -1993,16 +1993,16 @@ input[type=range]::-moz-range-thumb {
 }
 
 .footer-logo-card {
-  background: rgba(255, 255, 255, 0.05);
+  background: transparent;
   border-radius: 14px;
-  padding: 16px 20px;
+  padding: 0;
   border: 1px solid rgba(255, 255, 255, 0.08);
   margin-bottom: 20px;
   width: fit-content;
 }
 
 .footer-logo-img {
-  height: 50px;
+  height: 90px;
   width: auto;
   object-fit: contain;
   display: block;
@@ -2109,6 +2109,12 @@ input[type=range]::-moz-range-thumb {
   justify-content: space-between;
   padding: 28px 0;
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.footer-phones {
+  display: flex;
+  align-items: center;
+  gap: 32px;
 }
 
 .footer-phone {
@@ -2327,7 +2333,13 @@ body { overflow-x: hidden; }
   .footer-main { padding: 0 20px; }
   .footer-content { grid-template-columns: 1fr; }
   .footer-phone-bar { flex-direction: column; gap: 20px; text-align: center; }
+  .footer-phones { flex-direction: column; gap: 16px; align-items: center; }
   .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
+
+  /* Stats como funciona */
+  .stats-row { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .steps-row { grid-template-columns: 1fr 1fr; gap: 20px; }
+  .step-connector { display: none; }
 }
 
 /* ── Mobile (≤ 600px) ── */
@@ -2339,10 +2351,21 @@ body { overflow-x: hidden; }
   .hero-subtitle { font-size: 14px; max-width: 100%; }
 
   /* Simulador */
-  .select-categoria { flex-direction: column; }
-  .valor-num { font-size: 36px; }
-  .chart-stats { flex-direction: column; gap: 12px; }
-  .tab-group { flex-direction: column; gap: 8px; }
+  .hero-two-cols { width: 100%; }
+  .hero-sim-right { width: 100%; }
+  .hero-sim-right .sim-container { flex-direction: column; gap: 12px; }
+  .hero-sim-right .sim-panel { flex: unset; width: 100%; min-width: 0; }
+  .hero-sim-right .sim-chart-area { width: 100%; min-width: 0; }
+  .select-categoria { flex-direction: column; gap: 8px; }
+  .cat-btn { width: 100%; justify-content: center; }
+  .valor-num { font-size: 32px; }
+  .chart-stats { flex-direction: column; gap: 10px; }
+  .tab-group { flex-direction: row; }
+
+  /* Stats como funciona */
+  .stats-row { grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 40px; }
+  .steps-row { grid-template-columns: 1fr; gap: 16px; }
+  .step-connector { display: none; }
 
   /* Stats banner */
   .stats-banner { padding: 28px 16px; }

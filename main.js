@@ -159,7 +159,7 @@ function submitSimModal(e) {
   );
 
   setTimeout(() => {
-    window.open(`https://wa.me/5545998000367?text=${msg}`, '_blank');
+    window.open(`https://wa.me/554598066693?text=${msg}`, '_blank');
     btnText.textContent = '✓ Enviado!';
     btnText.style.display = 'inline-flex';
     btnLoad.style.display = 'none';
@@ -187,12 +187,25 @@ function toggleFaq(btn) {
 
 /* ─── CHART.JS ─── */
 let simChart = null;
+let chartMouseleaveAdded = false;
 
-function createChart(creditValue) {
+function createChart(creditValue, prazo = 72) {
   const ctx = document.getElementById('simChart');
   if (!ctx) return;
 
-  const months = 72;
+  // Remove pontos do hover ao sair do gráfico
+  if (!chartMouseleaveAdded) {
+    ctx.addEventListener('mouseleave', () => {
+      if (simChart) {
+        simChart.tooltip.hide();
+        simChart.setActiveElements([]);
+        simChart.update('none');
+      }
+    });
+    chartMouseleaveAdded = true;
+  }
+
+  const months = prazo;
   const labels = [];
   const creditData = [];
   const parcelasData = [];
@@ -215,7 +228,7 @@ function createChart(creditValue) {
     simChart.data.datasets[0].data = creditData;
     simChart.data.datasets[1].data = parcelasData;
     simChart.data.datasets[2].data = valorizacaoData;
-    simChart.update('active');
+    simChart.update('none');
     return;
   }
 
@@ -270,7 +283,31 @@ function createChart(creditValue) {
 
 /* ─── SIMULADOR ─── */
 let simMode = 'credito';
-let _simCreditValue = 40000; // guarda o crédito real independente do modo
+let _simCreditValue = 40000;
+
+// Dados reais das tabelas de parcelas Porto (com redução 20% padrão até contemplação)
+const catConfig = {
+  'Veículos': { min: 25000, max: 200000, step: 1000, default: 40000, labelMin: 'R$ 25 mil', labelMax: 'R$ 200 mil' },
+  'Imóveis':  { min: 70000, max: 1000000, step: 5000, default: 200000, labelMin: 'R$ 70 mil', labelMax: 'R$ 1 M' },
+  'Pesados':  { min: 180000, max: 360000, step: 5000, default: 250000, labelMin: 'R$ 180 mil', labelMax: 'R$ 360 mil' },
+};
+
+function getSimPlan(n, categoria) {
+  if (categoria.includes('Imóvel') || categoria.includes('Imovel')) {
+    if (n <= 140000) return { prazo: 200, taxa: 0.25 };
+    if (n <= 280000) return { prazo: 200, taxa: 0.23 };
+    if (n <= 560000) return { prazo: 200, taxa: 0.21 };
+    return { prazo: 200, taxa: 0.195 };
+  }
+  if (categoria.includes('Pesado')) {
+    return { prazo: 120, taxa: 0.16 };
+  }
+  // Veículos
+  if (n < 34000)  return { prazo: 50, taxa: 0.20 };
+  if (n <= 65000) return { prazo: 72, taxa: 0.20 };
+  if (n <= 125000) return { prazo: 80, taxa: 0.18 };
+  return { prazo: 90, taxa: 0.17 };
+}
 
 function updateSim(val) {
   const n = parseInt(val);
@@ -279,43 +316,28 @@ function updateSim(val) {
   const pct = ((n - min) / (max - min)) * 100;
   range.style.background = `linear-gradient(to right, #3b82f6 0%, #1d4ed8 ${pct}%, #e5e7eb ${pct}%, #e5e7eb 100%)`;
 
+  const categoria = document.querySelector('.cat-btn.active')?.textContent?.trim() || 'Veículos';
+
   if (simMode === 'parcela') {
-    // n = valor da parcela escolhida pelo usuário
     document.getElementById('sim-num').textContent = n.toLocaleString('pt-BR', { maximumFractionDigits: 0 });
-
-    // Prazo baseado na faixa da parcela
-    let prazo = 72;
-    if (n <= 400)        prazo = 48;
-    else if (n <= 1200)  prazo = 72;
-    else if (n <= 2500)  prazo = 100;
-    else                 prazo = 120;
-
-    // Crédito que essa parcela representa
-    const credito = Math.round((n * prazo) / 1.15);
+    // Inverso: crédito ≈ parcela / 0.80 * 72 / 1.20 (base Veículos 72m)
+    const credito = Math.round((n / 0.80) * 72 / 1.20);
     _simCreditValue = credito;
-
-    // Parcela estimada = o próprio valor escolhido (não recalcular!)
-    document.getElementById('stat-parcela').textContent =
-      'R$ ' + n.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-    document.getElementById('stat-prazo').textContent = prazo + ' meses';
-    createChart(credito);
-
+    document.getElementById('stat-parcela').textContent = 'R$ ' + n.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    document.getElementById('stat-prazo').textContent = '72 meses';
+    document.getElementById('stat-taxa').textContent = '20% total';
+    createChart(credito, 72);
   } else {
-    // n = valor do crédito escolhido pelo usuário
     document.getElementById('sim-num').textContent = n.toLocaleString('pt-BR', { maximumFractionDigits: 0 });
     _simCreditValue = n;
-
-    let prazo = 72;
-    if (n <= 30000)       prazo = 48;
-    else if (n <= 80000)  prazo = 72;
-    else if (n <= 200000) prazo = 100;
-    else                  prazo = 120;
-
-    const parcela = (n * 1.15) / prazo;
-    document.getElementById('stat-parcela').textContent =
-      'R$ ' + parcela.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-    document.getElementById('stat-prazo').textContent = prazo + ' meses';
-    createChart(n);
+    const plan = getSimPlan(n, categoria);
+    // Parcela com redução de 20% padrão (valor pago até a contemplação)
+    const parcelaCheia = n * (1 + plan.taxa) / plan.prazo;
+    const parcelaReducao = parcelaCheia * 0.80;
+    document.getElementById('stat-parcela').textContent = 'R$ ' + parcelaReducao.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    document.getElementById('stat-prazo').textContent = plan.prazo + ' meses';
+    document.getElementById('stat-taxa').textContent = (plan.taxa * 100).toFixed(1) + '% total';
+    createChart(n, plan.prazo);
   }
 }
 
@@ -344,16 +366,26 @@ function setTab(el, mode) {
     document.querySelector('.sim-range-labels').innerHTML = '<span>R$ 200</span><span>R$ 5.000</span>';
     updateSim(500);
   } else {
+    const cat = document.querySelector('.cat-btn.active')?.textContent?.trim() || 'Veículos';
+    const cfg = catConfig[cat] || catConfig['Veículos'];
     labelEl.textContent = 'Escolha o valor do crédito:';
-    range.min = 10000; range.max = 500000; range.step = 1000; range.value = 40000;
-    document.querySelector('.sim-range-labels').innerHTML = '<span>R$ 10 mil</span><span>R$ 500 mil</span>';
-    updateSim(40000);
+    range.min = cfg.min; range.max = cfg.max; range.step = cfg.step; range.value = cfg.default;
+    document.querySelector('.sim-range-labels').innerHTML = `<span>${cfg.labelMin}</span><span>${cfg.labelMax}</span>`;
+    updateSim(cfg.default);
   }
 }
 
 function setCat(el) {
   document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
   el.classList.add('active');
+  if (simMode === 'credito') {
+    const cat = el.textContent.trim();
+    const cfg = catConfig[cat] || catConfig['Veículos'];
+    const range = document.getElementById('sim-range');
+    range.min = cfg.min; range.max = cfg.max; range.step = cfg.step; range.value = cfg.default;
+    document.querySelector('.sim-range-labels').innerHTML = `<span>${cfg.labelMin}</span><span>${cfg.labelMax}</span>`;
+    updateSim(cfg.default);
+  }
 }
 
 /* ─── FORMULÁRIO ─── */
